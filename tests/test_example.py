@@ -8,16 +8,16 @@ Or for DashScope:
     export DASHSCOPE_API_KEY="your-api-key"
 """
 import os
-import vera
-from vera.data import EmbeddingDataset
-from vera.adapter import VeraAdapter, check_embedding_collapse
-from vera.index import VeraIndex
+import tunevera
+from tunetunevera.data import EmbeddingDataset
+from tunetunevera.adapter import VeraAdapter, check_embedding_collapse
+from tunetunevera.index import VeraIndex
 
 
 def test_load_data():
     """Test loading data from CSV."""
     path_data = os.path.join(os.path.dirname(__file__), "sample_data.csv")
-    data = vera.load_data(
+    data = tunevera.load_data(
         path=path_data,
         question_col="pregunta",
         answer_col="respuesta"
@@ -38,14 +38,14 @@ def test_full_pipeline():
 
     # 1. Load data
     path_data = os.path.join(os.path.dirname(__file__), "sample_data.csv")
-    data = vera.load_data(
+    data = tunevera.load_data(
         path=path_data,
         question_col="pregunta",
         answer_col="respuesta"
     )
 
     # 2. Load embedding model
-    model_emb = vera.embedding.openai(
+    model_emb = tunevera.embedding.openai(
         api_key=api_key,
         model="text-embedding-3-small"
     )
@@ -59,7 +59,7 @@ def test_full_pipeline():
     )
 
     # 4. Create and train VERA adapter
-    model_adapter = vera.adapter(
+    model_adapter = tunevera.adapter(
         embedding_dim=1536,
         arch_type="adapter",
         bottleneck_dim=64,
@@ -78,7 +78,7 @@ def test_full_pipeline():
     print(f"Collapse ratio: {collapse_check['collapse_ratio']:.4f}")
 
     # 6. Create search index
-    index = vera.index(
+    index = tunevera.index(
         data=data_emb,
         model_adapter=model_adapter,
         model_embedding=model_emb
