@@ -1,0 +1,5 @@
+vera/__pycache__/
+saved_data/
+.claude/
+*.pyc
+*.pyo
